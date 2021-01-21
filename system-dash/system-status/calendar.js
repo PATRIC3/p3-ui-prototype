@@ -71,35 +71,43 @@ const calColorMap = {
 }
 
 
-const Calendar = ({data, onClick, dataKey, highlightDate}) =>
-  <HeatmapCalendar
-    data={data}
-    startDate={new Date('2020-1-1')}
-    endDate={new Date('2020-12-31')}
-    highlightDate={highlightDate ? new Date(highlightDate) : null}
-    dataKey={dataKey}
-    onClick={onClick}
-    tooltip={({date, data}) => CalTooltip(date, data, dataKey)}
-    histogram={false}
-    histogramHeight={100}
-    cellW={17}
-    cellH={17}
-    colorForValue={(val, obj) => {
-      if (val == null)
-        return calColorMap.noValue
 
-      if (val <= 0)
-        return calColorMap.green2
-      else if (val <= 5)
-        return calColorMap.red1
-      else if (val <= 10)
-        return calColorMap.red2
-      else if (val <= 50)
-        return calColorMap.red3
-      else if (val > 50)
-        return calColorMap.red4
-    }}
-  />
+const Calendar = ({data, onClick, dataKey, highlightDate}) => {
+  let d = new Date()
+  let pastYear = d.getFullYear() - 1
+  d.setFullYear(pastYear)
+
+  return (
+    <HeatmapCalendar
+      data={data}
+      startDate={d}
+      endDate={new Date()}
+      highlightDate={highlightDate ? new Date(highlightDate) : null}
+      dataKey={dataKey}
+      onClick={onClick}
+      tooltip={({date, data}) => CalTooltip(date, data, dataKey)}
+      histogram={false}
+      histogramHeight={100}
+      cellW={17}
+      cellH={17}
+      colorForValue={(val, obj) => {
+        if (val == null)
+          return calColorMap.noValue
+
+        if (val <= 0)
+          return calColorMap.green2
+        else if (val <= 5)
+          return calColorMap.red1
+        else if (val <= 10)
+          return calColorMap.red2
+        else if (val <= 50)
+          return calColorMap.red3
+        else if (val > 50)
+          return calColorMap.red4
+      }}
+    />
+  )
+}
 
 
 const CalTooltip = (date, data, dataKey) =>
