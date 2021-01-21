@@ -1,4 +1,4 @@
-# patric-ui
+# p3-ui-prototype
 
 Prototype of react.js components for PATRIC and related projects
 
