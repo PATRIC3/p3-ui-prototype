@@ -1,18 +1,20 @@
 
 
 import React from 'react'
-import { BrowserRouter, Switch, Route, NavLink, Redirect} from "react-router-dom"
-import { render } from "react-dom"
+import { BrowserRouter, Switch, Route, NavLink, Redirect, Link} from 'react-router-dom'
+import { render } from 'react-dom'
+
+import { NavBar } from './DashNavBar'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
 
 import { isSignedIn } from '../src/api/auth'
-import { NavBar } from '../src/nav-bar/NavBar'
-import AdminSignInForm from '../src/auth/admin-sign-in-form'
+import AdminSignInForm from '../src/auth/AdminSignIn'
 import PrivateRoute from './private-route'
 
 // views
@@ -23,6 +25,7 @@ import Gronkomatic from './gronkomatic/gronkomatic'
 import NotFound404 from '../src/404'
 
 import '../src/styles/styles.scss'
+import './nav-bar.scss'
 
 
 const colors = {
@@ -40,7 +43,7 @@ const theme = createMuiTheme({
       contrastText: '#dc7216'
     }
   }
-});
+})
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,14 +58,15 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     marginTop: theme.spacing(2)
   }
-}));
+}))
 
 
-const HasAuth = props => isSignedIn() ? [props.children] : <></>;
+const HasAuth = props => isSignedIn() ? [props.children] : <></>
 
 const SystemMenu = () => {
   return (
     <HasAuth>
+
       <NavLink to="/system-status" className="nav-item" activeClassName="active">
         System Status
       </NavLink>
@@ -72,15 +76,15 @@ const SystemMenu = () => {
       <NavLink to="/tests" className="nav-item">
         Tests
       </NavLink>
-      <NavLink to="/gronkomatic" className="nav-item">
+      {/*<NavLink to="/gronkomatic" className="nav-item">
         Gronkomatic
-      </NavLink>
+      </NavLink>*/}
     </HasAuth>
   )
 }
 
 const SignIn = () => {
-  const styles = useStyles();
+  const styles = useStyles()
   return (
     <Grid container justify="center">
       <Paper className={styles.card}>
@@ -91,13 +95,13 @@ const SignIn = () => {
 }
 
 const App = () => {
-  const styles = useStyles();
+  const styles = useStyles()
 
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
 
-        <NavBar adminApp MenuComponnt={SystemMenu}/>
+        <NavBar isAdminApp MenuComponent={SystemMenu}/>
 
         <div className={styles.content}>
           <Switch>
@@ -116,8 +120,8 @@ const App = () => {
       </ThemeProvider>
     </BrowserRouter>
   )
-};
+}
 
-render(<App />, document.getElementById('app'));
+render(<App />, document.getElementById('app'))
 
 

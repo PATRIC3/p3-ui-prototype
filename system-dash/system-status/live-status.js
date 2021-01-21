@@ -14,7 +14,7 @@ import config from '../config'
 
 
 const LiveRows = (props) => {
-  const [state, time] = useContext(LiveStatusContext);
+  const [state, time] = useContext(LiveStatusContext)
 
   useEffect(() => {
     props.afterUpdate(time)
@@ -42,7 +42,7 @@ const LiveRows = (props) => {
             }
           </td>
         </tr>
-        )
+      )
       )}
     </>
   )

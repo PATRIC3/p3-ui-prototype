@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from 'axios'
 
 const api = axios.create({
   baseURL: 'http://127.0.0.1:8000'
-});
+})
 
 
 const attemptFetch = path =>
@@ -21,14 +21,14 @@ const getDayBefore = (date) => {
 }
 
 const parseHealthLog = (data, service = null) => {
-  const rows = data.trim().split('\n');
+  const rows = data.trim().split('\n')
   const objs = rows.map(row => JSON.parse(row))
 
   const records = objs.map(({time, tests}) => {
 
     // filter by service if requested
     if (service) {
-      tests = tests.filter(test => test.name == service);
+      tests = tests.filter(test => test.name == service)
     }
 
     return {
@@ -39,7 +39,7 @@ const parseHealthLog = (data, service = null) => {
     }
   })
 
-  return records;
+  return records
 }
 
 
@@ -69,11 +69,11 @@ export function getHealthReport ({service = null, date = null}) {
 export function getCalendar() {
   return api.get(`/results/health-calendar.txt`)
     .then(res => {
-      let objs;
+      let objs
       if (typeof data === 'object') {
         objs = data
       }else {
-        const data = res.data.trim();
+        const data = res.data.trim()
         const rows = data.split('\n')
         objs = rows.map(row => JSON.parse(row))
       }
@@ -88,8 +88,8 @@ export function getCalendar() {
           byService[`${s.name}_failures`] = s.failed
         })
 
-        let date = new Date(obj.date);
-        date.setDate(date.getDate() + 1);
+        let date = new Date(obj.date)
+        date.setDate(date.getDate() + 1)
 
         return {
           ...obj,
@@ -108,7 +108,7 @@ export function getCalendar() {
 export function getIndexerData() {
   return api.get(`/results/indexer/indexer-status.txt`)
     .then(res => {
-      const data = res.data.trim();
+      const data = res.data.trim()
       const rows = data.split('\n')
       let objs = rows.map(row => JSON.parse(row))
       objs = objs.map(obj => ({value: obj.genomesInQueue, ...obj}))
@@ -127,7 +127,7 @@ export function getErrorLog(utcTime) {
       const data = res.data
 
       // parse out matching error
-      const re = new RegExp(`\\[${year}\\-`, 'g');
+      const re = new RegExp(`\\[${year}\\-`, 'g')
       const errors = data.split(re)
         .map(err =>`[${year}-${err}`)
         .filter(err => err.includes(utcTime))
@@ -212,14 +212,14 @@ export function getEnd2EndLog(date = null) {
   const [file1, file2] = [`${path}/end2end_${dayBefore}.txt`, `${path}/end2end_${date}.txt`]
 
   return axios.all([
-      attemptFetch(file1),
-      attemptFetch(file2)
-    ]).then(([prevFile, file]) => {
-      const prevData = parseFullTestLog(prevFile.data),
-        data = parseFullTestLog(file.data);
+    attemptFetch(file1),
+    attemptFetch(file2)
+  ]).then(([prevFile, file]) => {
+    const prevData = parseFullTestLog(prevFile.data),
+      data = parseFullTestLog(file.data)
 
-      return [...prevData, ...data].slice(-24)
-    })
+    return [...prevData, ...data].slice(-24)
+  })
 }
 
 
@@ -232,17 +232,17 @@ export function getUIPerfLog({date = null, subtract = true}) {
   const [file1, file2] = [`${path}/performance_${dayBefore}.txt`, `${path}/performance_${date}.txt`]
 
   return axios.all([
-      attemptFetch(file1),
-      attemptFetch(file2),
-    ]).then(([prevFile, file]) => {
-      const prevData = parseFullTestLog(prevFile.data),
-        data = parseFullTestLog(file.data);
+    attemptFetch(file1),
+    attemptFetch(file2),
+  ]).then(([prevFile, file]) => {
+    const prevData = parseFullTestLog(prevFile.data),
+      data = parseFullTestLog(file.data)
 
-      return aggregatePerfLog({
-        objs: [...prevData, ...data].slice(-24),
-        subtract
-      })
+    return aggregatePerfLog({
+      objs: [...prevData, ...data].slice(-24),
+      subtract
     })
+  })
 }
 
 

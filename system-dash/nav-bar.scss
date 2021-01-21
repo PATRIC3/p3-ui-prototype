@@ -1,0 +1,26 @@
+.nav-bar {
+  margin-left: 5px;
+
+  .nav-item {
+    display: inline-block;
+    font-size: 0.875rem;
+    letter-spacing: 0.02857em;
+    color: #efefef;
+    text-decoration: none;
+    padding: 11px 14px;
+    margin-right: 1px;
+    text-transform: capitalize;
+  }
+
+  .nav-item:hover {
+    color: #fff;
+  }
+
+  .nav-item.active {
+    color: #fff;
+    margin-top: -3px;
+    border-top: 3px solid #fff;
+    transition: all 100ms;
+    font-weight: 500;
+  }
+}

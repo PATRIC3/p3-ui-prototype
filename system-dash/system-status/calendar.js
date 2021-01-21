@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useReducer} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -6,7 +6,7 @@ import Subtitle from '../../src/subtitle'
 import HeatmapCalendar from '../../lib/heatmap-calendar/src/HeatmapCalendar'
 
 import Chip from '@material-ui/core/Chip'
-import MenuButton from '../../components/menu-button'
+import MenuButton from '../../lib/menu-button'
 import DownloadIcon from '@material-ui/icons/CloudDownloadOutlined'
 import MenuItem from '@material-ui/core/MenuItem'
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   dateFilter: {
     marginLeft: theme.spacing(2)
   }
-}));
+}))
 
 
 const getCalendarCSV = (data, type) => {
@@ -104,8 +104,8 @@ const Calendar = ({data, onClick, dataKey, highlightDate}) =>
 
 const CalTooltip = (date, data, dataKey) =>
   <div>
-      <TTitle>{date.toDateString()}</TTitle>
-      {data &&
+    <TTitle>{date.toDateString()}</TTitle>
+    {data &&
         <>
           <Count>{data[dataKey]} events</Count>
           {data.total !== TOTAL_TESTS &&
@@ -115,7 +115,7 @@ const CalTooltip = (date, data, dataKey) =>
             </Note>
           }
         </>
-      }
+    }
   </div>
 
 
@@ -142,7 +142,7 @@ export default function CalendarPanel(props) {
   const {data, onDayClick, highlightDate, filterBy, onDeleteDate, date} = props
 
   const [openDownloadMenu, setOpenDownloadMenu] = useState(false)
-  const [dataKey, setDataKey] = useState('failed');
+  const [dataKey, setDataKey] = useState('failed')
 
   useEffect(() => {
     setDataKey(filterBy == 'All' ? 'failed' : filterBy + '_failures')
@@ -166,7 +166,7 @@ export default function CalendarPanel(props) {
           color="primary"
           className={styles.dateFilter}
         />
-       }
+      }
 
       <MenuButton
         startIcon={<DownloadIcon />}

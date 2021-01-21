@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useRef, useMemo} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useState, useEffect, useRef, useMemo} from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import Select from 'react-select'
 
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
 import Slider from '@material-ui/core/Slider'
 import Tooltip from '@material-ui/core/Tooltip'
 
@@ -11,13 +11,13 @@ import PlayIcon from '@material-ui/icons/PlayCircleOutlineRounded'
 import ReplayIcon from '@material-ui/icons/ReplayRounded'
 import StopIcon from '@material-ui/icons/Stop'
 
-import Subtitle from '../../src/subtitle';
-import {months} from '../../src/utils/dates';
+import Subtitle from '../../src/subtitle'
+import {months} from '../../src/utils/dates'
 
-import { Paper } from '@material-ui/core';
+import { Paper } from '@material-ui/core'
 import { Bar } from '@nivo/bar'
-import { AutoSizer } from 'react-virtualized';
-import axios from 'axios';
+import { AutoSizer } from 'react-virtualized'
+import axios from 'axios'
 
 const fieldOptions = [
   { value: 'genus', label: 'Genus' },
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   slider: {
 
   },
-}));
+}))
 
 const BarComponent = props => {
   return (
@@ -73,8 +73,8 @@ const BarComponent = props => {
         {props.data.value}
       </text>
     </g>
-  );
-};
+  )
+}
 
 
 const getDayData = (data) => {
@@ -90,7 +90,7 @@ const getDayData = (data) => {
 }
 
 const renderDay = (date) => {
-  const d = new Date(date);
+  const d = new Date(date)
 
   if (isNaN(d))
     console.error('*** Data sanitization issue: ', date, 'is not valid')
@@ -110,7 +110,7 @@ const renderDay = (date) => {
 
 
 const Chart = (props) => {
-  const {data} = props;
+  const {data} = props
   return (
     <AutoSizer>
       {({ height, width }) => (
@@ -143,20 +143,20 @@ const Chart = (props) => {
           animate={true}
         />
       )
-    }
+      }
     </AutoSizer>
   )
 }
 
 const SliderLabelComponent = (props) => {
-  const { children, open, value } = props;
+  const { children, open, value } = props
 
-  const popperRef = useRef(null);
+  const popperRef = useRef(null)
   useEffect(() => {
     if (popperRef.current) {
-      popperRef.current.update();
+      popperRef.current.update()
     }
-  });
+  })
 
   return (
     <Tooltip
@@ -170,26 +170,26 @@ const SliderLabelComponent = (props) => {
     >
       {children}
     </Tooltip>
-  );
+  )
 }
 
 export default function Insights() {
-  const styles = useStyles();
+  const styles = useStyles()
 
-  const [allData, setAllData] = useState(null);
+  const [allData, setAllData] = useState(null)
 
-  const [play, setPlay] = useState(false);
-  const [lastIdx, setLastIdx] = useState(null);
-  const [idx, setIdx] = useState(null);
+  const [play, setPlay] = useState(false)
+  const [lastIdx, setLastIdx] = useState(null)
+  const [idx, setIdx] = useState(null)
 
-  const [field, setField] = useState({value: 'genus', label: 'Genus'});
+  const [field, setField] = useState({value: 'genus', label: 'Genus'})
 
   // for changing time series data set
   useEffect(() => {
     axios.get(`/data/by-${field.value}.json`)
       .then(res => {
-        const {data} = res;
-        const lastIdx = data.length - 1;
+        const {data} = res
+        const lastIdx = data.length - 1
         setAllData(data)
         setLastIdx(lastIdx)
 
@@ -203,20 +203,20 @@ export default function Insights() {
   // for idx change or if play button is clicked
   useEffect(() => {
     // stop timeout if not playing
-    if (!play) return;
+    if (!play) return
 
     const timer = setTimeout(() => {
       const next = idx + 1
 
       if (next > lastIdx) {
-        clearTimeout(timer);
-        return;
+        clearTimeout(timer)
+        return
       }
 
-      setIdx(next);
-    }, 20);
+      setIdx(next)
+    }, 20)
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer)
   }, [idx, play])
 
 
@@ -310,7 +310,7 @@ export default function Insights() {
         </Grid>
 
       </Grid>
-   </div>
+    </div>
   )
 }
 

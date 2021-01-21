@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
@@ -12,7 +12,7 @@ import ReBrushChart from '../../src/charts/re-brush-chart'
 
 import { getHealthReport, getCalendar, getIndexerData, getErrorLog } from '../api/log-fetcher'
 import LiveStatus from './live-status'
-import ErrorMsg from '../../src/error-msg'
+import ErrorMsg from '../../src/ErrorMsg'
 import Subtitle from '../../src/subtitle'
 import FilterChips from '../../src/utils/ui/chip-filters'
 import config from '../config'
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   dateFilter: {
     marginLeft: theme.spacing(2)
   }
-}));
+}))
 
 
 const getFilters = () => {
@@ -53,7 +53,7 @@ const BrushChart = ({data, ...props}) =>
 
 
 const colorBy = (obj) =>
-   obj.status == 'P' ? 'rgb(77, 165, 78)' : 'rgb(198, 69, 66)'
+  obj.status == 'P' ? 'rgb(77, 165, 78)' : 'rgb(198, 69, 66)'
 
 
 const formatData = (data, lastN = HOURS*60) => {
@@ -62,32 +62,32 @@ const formatData = (data, lastN = HOURS*60) => {
     value: obj.duration,
     ...obj
   })).slice(-lastN)
-  return data;
+  return data
 }
 
 
 export default function SystemStatus() {
-  const styles = useStyles();
+  const styles = useStyles()
 
   // genome indexer history data
-  const [indexerData, setIndexerData] = useState(null);
+  const [indexerData, setIndexerData] = useState(null)
 
   // system health history data
-  const [healthData, setHealthData] = useState(null);
+  const [healthData, setHealthData] = useState(null)
 
   // system health calendar overview
-  const [calData, setCalData] = useState(null);
+  const [calData, setCalData] = useState(null)
 
   // the usual loading and error state
-  const [loading, setLoading] = useState(false);
-  const [error1, setError1] = useState(null);
-  const [error2, setError2] = useState(null);
-  const [error3, setError3] = useState(null);
+  const [loading, setLoading] = useState(false)
+  const [error1, setError1] = useState(null)
+  const [error2, setError2] = useState(null)
+  const [error3, setError3] = useState(null)
 
   // currently selected service and day state
-  const [service, setService] = useState('All');
-  const [date, setDate] = useState();
-  const [fullDate, setFullDate] = useState();
+  const [service, setService] = useState('All')
+  const [date, setDate] = useState()
+  const [fullDate, setFullDate] = useState()
 
   // state for displaying error log
   const [errorLog, setErrorLog] = useState(null)
@@ -130,9 +130,9 @@ export default function SystemStatus() {
   const getMax = (data) => Math.max(...data.map(o => o.value))
 
   const onDayClick = (evt) => {
-    if (!evt) return;
+    if (!evt) return
 
-    const {date} = evt;
+    const {date} = evt
 
     const [yyyy, mm, dd] = [
       date.getFullYear(),
@@ -151,11 +151,11 @@ export default function SystemStatus() {
   }
 
   const onNodeClick = (data) => {
-    if (!data) return;
+    if (!data) return
     const {status, time} = data.activePayload[0].payload
 
     // ignore anything that isn't failed status
-    if (status != 'F') return;
+    if (status != 'F') return
 
     getErrorLog(time).then(data => {
       setErrorLog(data)
@@ -171,7 +171,7 @@ export default function SystemStatus() {
           </Grid>
 
           <Grid item xs={8}>
-          <Paper className="card" style={{height: 290}}>
+            <Paper className="card" style={{height: 290}}>
               <Subtitle noUpper>Genome Indexer</Subtitle>
               {
                 indexerData &&
@@ -235,7 +235,6 @@ export default function SystemStatus() {
           </Grid>
         </Grid>
 
-
         <Grid container>
           <Grid item xs={12}>
             <Paper className="card" style={{height: 225}}>
@@ -250,23 +249,6 @@ export default function SystemStatus() {
               { error3 && <ErrorMsg error={error3} noContact /> }
             </Paper>
           </Grid>
-
-
-          {/*
-          <Grid item xs={3}>
-            <Paper className="card" style={{height: 200}}>
-              <Subtitle noUpper>Stats</Subtitle>
-
-            </Paper>
-          </Grid>
-
-          <Grid item xs={5}>
-            <Paper className="card" style={{height: 200}}>
-              <Subtitle noUpper>Histogram</Subtitle>
-
-            </Paper>
-          </Grid>
-          */}
         </Grid>
 
       </Grid>
@@ -280,7 +262,7 @@ export default function SystemStatus() {
           onPrimaryClick={() => setErrorLog(false)}
         />
       }
-   </div>
+    </div>
   )
 }
 

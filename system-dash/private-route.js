@@ -1,10 +1,10 @@
-import React from 'react';
-import {Route, Redirect} from 'react-router-dom';
+import React from 'react'
+import {Route, Redirect} from 'react-router-dom'
 
-import { isSignedIn } from '../src/api/auth';
+import { isSignedIn } from '../src/api/auth'
 
 export default function PrivateRoute({ component: Component, ...rest }) {
-  const isAuthenticated = isSignedIn();
+  const isAuthenticated = isSignedIn()
 
   return (
     <Route {...rest}
@@ -12,5 +12,5 @@ export default function PrivateRoute({ component: Component, ...rest }) {
         isAuthenticated ? <Component {...props} /> : <Redirect to="/sign-in" />
       }
     />
-  );
+  )
 }
