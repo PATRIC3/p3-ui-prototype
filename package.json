@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nconrad/patric-ui.git"
+    "url": "git+https://github.com/PATRIC3/p3-ui-prototype.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nconrad/patric-ui/issues"
+    "url": "https://github.com/PATRIC3/p3-ui-prototype/issues"
   },
-  "homepage": "https://github.com/nconrad/patric-ui#readme",
+  "homepage": "https://github.com/PATRIC3/p3-ui-prototype#readme",
   "dependencies": {
     "@gmod/jbrowse": "^1.16.6",
     "@material-ui/core": "^4.11.0",
